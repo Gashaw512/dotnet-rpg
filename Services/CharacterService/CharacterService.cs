@@ -99,7 +99,6 @@ namespace dotnet_rpg.Services.CharacterService
                 serviceResponce.Success = false;
                 serviceResponce.Message = ex.Message;
 
-
             }
             return serviceResponce;
 
@@ -125,7 +124,7 @@ namespace dotnet_rpg.Services.CharacterService
 
                 await _context.SaveChangesAsync();
                 // serviceResponce.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
-                 serviceResponce.Data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
+                serviceResponce.Data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
 
 
             }
@@ -133,8 +132,6 @@ namespace dotnet_rpg.Services.CharacterService
             {
                 serviceResponce.Success = false;
                 serviceResponce.Message = ex.Message;
-
-
             }
             return serviceResponce;
         }
