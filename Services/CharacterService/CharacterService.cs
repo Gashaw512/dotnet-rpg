@@ -30,6 +30,7 @@ namespace dotnet_rpg.Services.CharacterService
             return serviceResponse;
         }
 
+
         public async Task<ServiceResponse<List<GetCharacterDto>>> GetAllCharacters()
         {
             var serviceResponse = new ServiceResponse<List<GetCharacterDto>>();
@@ -52,10 +53,11 @@ namespace dotnet_rpg.Services.CharacterService
             {
 
                 var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
-                if(character is null){
+                if (character is null)
+                {
                     throw new Exception($"Character with ID '{updatedCharacter.Id}' not found ");
                 }
-_mapper.Map(updatedCharacter, character);
+                _mapper.Map(updatedCharacter, character);
 
                 character.Name = updatedCharacter.Name;
                 character.HitPoint = updatedCharacter.HitPoint;
@@ -76,6 +78,34 @@ _mapper.Map(updatedCharacter, character);
             }
             return serviceResponce;
 
+        }
+
+        public async Task<ServiceResponse<List<GetCharacterDto>>> DeleteCharacter(int id)
+        {
+            var serviceResponce = new ServiceResponse<List<GetCharacterDto>>();
+            try
+            {
+
+                // The difference between firstOrDefault and First is
+                // FirstOrDefault==== will return null if no matching entity is found
+                // First === throw an exception directly if ...........................
+                var character = characters.First(c => c.Id == id);
+                if (character is null)
+
+                    throw new Exception($"Character with ID '{id}' not found ");
+                characters.Remove(character);
+
+                serviceResponce.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                serviceResponce.Success = false;
+                serviceResponce.Message = ex.Message;
+
+
+            }
+            return serviceResponce;
         }
     }
 }
