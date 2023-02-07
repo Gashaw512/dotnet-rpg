@@ -98,7 +98,6 @@ namespace dotnet_rpg.Services.CharacterService
             {
                 serviceResponce.Success = false;
                 serviceResponce.Message = ex.Message;
-
             }
             return serviceResponce;
 
