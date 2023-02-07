@@ -11,7 +11,7 @@ using dotnet_rpg.Data;
 namespace dotnetrpg.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230207111418_InitialCreate")]
+    [Migration("20230207114523_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
