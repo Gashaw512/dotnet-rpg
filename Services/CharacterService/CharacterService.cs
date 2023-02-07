@@ -67,10 +67,14 @@ namespace dotnet_rpg.Services.CharacterService
         public async Task<ServiceResponse<GetCharacterDto>> UpdateCharacter(UpdateCharacterDto updatedCharacter)
         {
             var serviceResponce = new ServiceResponse<GetCharacterDto>();
+
+
             try
             {
 
-                var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id);
+                // var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id); for non db or static app
+                 var  character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
+
                 if (character is null)
                 {
                     throw new Exception($"Character with ID '{updatedCharacter.Id}' not found ");
@@ -83,6 +87,8 @@ namespace dotnet_rpg.Services.CharacterService
                 character.Defense = updatedCharacter.Defense;
                 character.Inteligence = updatedCharacter.Inteligence;
                 character.Class = updatedCharacter.Class;
+
+                await _context.SaveChangesAsync();
 
                 serviceResponce.Data = _mapper.Map<GetCharacterDto>(character);
 
