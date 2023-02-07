@@ -9,11 +9,12 @@ namespace dotnet_rpg.Services.CharacterService
 {
     public class CharacterService : ICharacterService
     {
-        private static List<Character> characters = new List<Character>(){
-             new Character(),
-            new Character{Id=1, Name="Gashaw"}
+        //  The bellow static is commented b/c it is replaced by the sql server data
 
-        };
+        // private static List<Character> characters = new List<Character>(){
+        //      new Character(),
+        //     new Character{Id=1, Name="Gashaw"}
+        // };
         private readonly IMapper _mapper;
         private readonly DataContext _context;
 
@@ -73,7 +74,7 @@ namespace dotnet_rpg.Services.CharacterService
             {
 
                 // var character = characters.FirstOrDefault(c => c.Id == updatedCharacter.Id); for non db or static app
-                 var  character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
+                var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == updatedCharacter.Id);
 
                 if (character is null)
                 {
@@ -113,13 +114,19 @@ namespace dotnet_rpg.Services.CharacterService
                 // The difference between firstOrDefault and First is
                 // FirstOrDefault==== will return null if no matching entity is found
                 // First === throw an exception directly if ...........................
-                var character = characters.FirstOrDefault(c => c.Id == id);
+                // var character = characters.FirstOrDefault(c => c.Id == id);
+
+                var character = await _context.Characters.FirstOrDefaultAsync(c => c.Id == id);
                 if (character is null)
 
                     throw new Exception($"Character with ID '{id}' not found ");
-                characters.Remove(character);
+                // characters.Remove(character);
+                _context.Characters.Remove(character);
 
-                serviceResponce.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                await _context.SaveChangesAsync();
+                // serviceResponce.Data = characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToList();
+                 serviceResponce.Data = await _context.Characters.Select(c => _mapper.Map<GetCharacterDto>(c)).ToListAsync();
+
 
             }
             catch (Exception ex)
