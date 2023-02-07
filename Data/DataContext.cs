@@ -22,7 +22,7 @@ namespace dotnet_rpg.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=master;Trusted_Connection=True; TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=dotnet-rpg;Trusted_Connection=True; TrustServerCertificate=true;");
             }
         }
     }
