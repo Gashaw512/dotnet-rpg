@@ -18,6 +18,12 @@ namespace dotnet_rpg.Data
         public DbSet<Character> Characters => Set<Character>();
 
 
-       
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("SERVER=Server\\Instance;DATABASE=Database;UID=user;PWD=password;");
+            }
+        }
     }
 }
