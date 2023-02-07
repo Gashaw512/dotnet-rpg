@@ -89,7 +89,7 @@ namespace dotnet_rpg.Services.CharacterService
                 // The difference between firstOrDefault and First is
                 // FirstOrDefault==== will return null if no matching entity is found
                 // First === throw an exception directly if ...........................
-                var character = characters.First(c => c.Id == id);
+                var character = characters.FirstOrDefault(c => c.Id == id);
                 if (character is null)
 
                     throw new Exception($"Character with ID '{id}' not found ");
