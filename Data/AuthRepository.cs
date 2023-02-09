@@ -21,6 +21,12 @@ namespace dotnet_rpg.Data
 
         public async Task<ServiceResponse<int>> Register(User user, string password)
         {
+             var response = new ServiceResponse<int>();
+             if(await UserExist(user.UserName)){
+                response.Success=false;
+                response.Message="User allready exist.";
+                return response;
+             }
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
             user.PasswordHash = passwordHash;
@@ -28,7 +34,7 @@ namespace dotnet_rpg.Data
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            var response = new ServiceResponse<int>();
+
             response.Data = user.Id;
             return response;
         }
