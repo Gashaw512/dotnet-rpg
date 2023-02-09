@@ -47,7 +47,6 @@ namespace dotnet_rpg.Data
             }
             return false;
 
-
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
